@@ -19,3 +19,4 @@ docker/
 *.pth
 *log.txt
 *datasets/ship*
+datasets/sent*

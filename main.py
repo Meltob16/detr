@@ -9,6 +9,7 @@ from pathlib import Path
 import numpy as np
 import torch
 from torch.utils.data import DataLoader, DistributedSampler
+import torch.nn as nn
 
 import datasets
 import util.misc as utils
@@ -103,6 +104,16 @@ def get_args_parser():
     parser.add_argument('--dist_url', default='env://', help='url used to set up distributed training')
     return parser
 
+# def weight_reset(m):
+#     if isinstance(m, nn.Conv2d) or isinstance(m, nn.Linear):
+#         m.reset_parameters()
+
+def weight_reset(m):
+    reset_parameters = getattr(m, "reset_parameters", None)
+    if callable(reset_parameters):
+        m.reset_parameters()
+
+
 
 def main(args):
     utils.init_distributed_mode(args)
@@ -171,7 +182,10 @@ def main(args):
         model_without_ddp.detr.load_state_dict(checkpoint['model'])
 
     output_dir = Path(args.output_dir)
-    if args.resume:
+    if args.resume == 'scratch':
+        args.start_epoch = 0
+        model.apply(weight_reset)
+    elif args.resume:
         if args.resume.startswith('https'):
             checkpoint = torch.hub.load_state_dict_from_url(
                 args.resume, map_location='cpu', check_hash=True)
