@@ -53,6 +53,8 @@ def plot_logs(logs, fields=('class_error', 'loss_bbox_unscaled', 'mAP'), ewm_col
     dfs = [pd.read_json(Path(p) / log_name, lines=True) for p in logs]
 
     fig, axs = plt.subplots(ncols=len(fields), figsize=(16, 5))
+    if len(fields) == 1:
+        axs = [axs]
 
     for df, color in zip(dfs, sns.color_palette(n_colors=len(logs))):
         for j, field in enumerate(fields):
@@ -60,14 +62,21 @@ def plot_logs(logs, fields=('class_error', 'loss_bbox_unscaled', 'mAP'), ewm_col
                 coco_eval = pd.DataFrame(
                     np.stack(df.test_coco_eval_bbox.dropna().values)[:, 1]
                 ).ewm(com=ewm_col).mean()
+                # axs[j].plot(coco_eval, c=color) if len(fields) > 1 else axs.plot(coco_eval, c=color)
                 axs[j].plot(coco_eval, c=color)
             else:
-                df.interpolate().ewm(com=ewm_col).mean().plot(
+                inter = df.interpolate()
+                ewm = inter[[f'train_{field}', f'test_{field}']].astype(float).ewm(com=ewm_col)
+                ewm.mean().plot(
                     y=[f'train_{field}', f'test_{field}'],
                     ax=axs[j],
                     color=[color] * 2,
                     style=['-', '--']
                 )
+    # if len(fields) == 1:
+    #     axs.legend([Path(p).name for p in logs])
+    #     axs.set_title(fields)
+    # else :
     for ax, field in zip(axs, fields):
         ax.legend([Path(p).name for p in logs])
         ax.set_title(field)
