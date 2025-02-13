@@ -1,0 +1,17 @@
+Averaged stats: class_error: 0.00  loss: 7.0762 (7.7482)  loss_ce: 0.1345 (0.1609)  loss_bbox: 0.0545 (0.0627)  loss_giou: 0.9747 (1.0228)  loss_ce_0: 0.2603 (0.2818)  loss_bbox_0: 0.0525 (0.0625)  loss_giou_0: 1.0145 (1.1049)  loss_ce_1: 0.2011 (0.2449)  loss_bbox_1: 0.0474 (0.0597)  loss_giou_1: 0.9816 (1.0144)  loss_ce_2: 0.1673 (0.2120)  loss_bbox_2: 0.0427 (0.0584)  loss_giou_2: 1.0188 (1.0051)  loss_ce_3: 0.1406 (0.1757)  loss_bbox_3: 0.0465 (0.0612)  loss_giou_3: 1.0367 (0.9944)  loss_ce_4: 0.1319 (0.1682)  loss_bbox_4: 0.0500 (0.0612)  loss_giou_4: 0.9764 (0.9973)  loss_ce_unscaled: 0.1345 (0.1609)  class_error_unscaled: 0.0000 (5.1812)  loss_bbox_unscaled: 0.0109 (0.0125)  loss_giou_unscaled: 0.4873 (0.5114)  cardinality_error_unscaled: 4.0000 (4.8596)  loss_ce_0_unscaled: 0.2603 (0.2818)  loss_bbox_0_unscaled: 0.0105 (0.0125)  loss_giou_0_unscaled: 0.5073 (0.5525)  cardinality_error_0_unscaled: 10.5000 (10.4211)  loss_ce_1_unscaled: 0.2011 (0.2449)  loss_bbox_1_unscaled: 0.0095 (0.0119)  loss_giou_1_unscaled: 0.4908 (0.5072)  cardinality_error_1_unscaled: 9.0000 (9.5263)  loss_ce_2_unscaled: 0.1673 (0.2120)  loss_bbox_2_unscaled: 0.0085 (0.0117)  loss_giou_2_unscaled: 0.5094 (0.5025)  cardinality_error_2_unscaled: 6.0000 (7.2105)  loss_ce_3_unscaled: 0.1406 (0.1757)  loss_bbox_3_unscaled: 0.0093 (0.0122)  loss_giou_3_unscaled: 0.5184 (0.4972)  cardinality_error_3_unscaled: 4.0000 (5.1491)  loss_ce_4_unscaled: 0.1319 (0.1682)  loss_bbox_4_unscaled: 0.0100 (0.0122)  loss_giou_4_unscaled: 0.4882 (0.4986)  cardinality_error_4_unscaled: 4.0000 (4.8421)
+Accumulating evaluation results...
+DONE (t=0.06s).
+IoU metric: bbox
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.075
+ Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=100 ] = 0.281
+ Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=100 ] = 0.021
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = 0.075
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.200
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = -1.000
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=  1 ] = 0.088
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets= 10 ] = 0.175
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.232
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = 0.231
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.400
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = -1.000
+Training time 1:25:11

@@ -25,17 +25,14 @@ os.environ["KMP_DUPLICATE_LIB_OK"]="TRUE"
 # %cd trained-weights
 # !wget https://github.com/NyanSwanAung/Object-Detection-Using-DETR-CustomDataset/releases/download/v1.0/detr_r50_ep15.tar
 
-# # Extract tar file
-# !tar -xf detr_r50_ep15.tar
-# !rm -r detr_r50_ep15.tar
-# %cd ..
      
 # Load model from torch.hub and load ckpt file into model
 
 model = torch.hub.load('facebookresearch/detr', 'detr_resnet50', pretrained=False, num_classes=2)
 from models import detr
 # model = detr() model_builder etc..
-TRAINED_CKPT_PATH = 'outputs/models/sentinel2_finetune_20_epoch.pth'
+# TRAINED_CKPT_PATH = 'outputs/checkpoint.pth'
+TRAINED_CKPT_PATH = 'outputs/models/sentinel2_panchromatic_finetune_20_epochs/checkpoint.pth'
 # TRAINED_CKPT_PATH = 'outputs/eval/latest.pth'
 checkpoint = torch.load(TRAINED_CKPT_PATH, map_location='cpu', weights_only=False)
 model.load_state_dict(checkpoint['model'], strict=False)
@@ -46,7 +43,8 @@ CLASSES = ['n/a','ship']
 COLORS = [[0.000, 0.447, 0.741]]
      
 
-transform = T.Compose([
+
+transform_rgb = T.Compose([
     T.Resize(800),
     T.ToTensor(),
     T.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
@@ -81,10 +79,10 @@ def plot_results(pil_img, prob, boxes):
     plt.show()
 
 def postprocess_img(img_path): 
-  im = Image.open(img_path)
+  im = Image.open(img_path).convert('RGB')
 
-  # mean-std normalize the input image (batch-size: 1)
-  img = transform(im).unsqueeze(0)
+# mean-std normalize the input image (batch-size: 1)
+  img = transform_rgb(im).unsqueeze(0)
 
   # propagate through the model
   start = time.time()
@@ -94,7 +92,7 @@ def postprocess_img(img_path):
 
   # keep only predictions with 0.7+ confidence
   probas = outputs['pred_logits'].softmax(-1)[0, :, :-1]
-  keep = probas.max(-1).values > 0.5
+  keep = probas.max(-1).values > 0.6
 
    # convert boxes from [0; 1] to image scales
   bboxes_scaled = rescale_bboxes(outputs['pred_boxes'][0, keep], im.size)
@@ -104,7 +102,7 @@ def postprocess_img(img_path):
 # postprocess_img('datasets/sentinel2_coco/test/S2A_MSIL2A_20230306T022551_N0509_R046_T51RUM_20230306T065958_800_10400__png.rf.2a607c661fcc9fdd7664d6a5ba14c86f.jpg')
 # Load test image paths
 
-TEST_IMG_PATH = 'datasets/sentinel2_coco/test'
+TEST_IMG_PATH = 'datasets/sentinel2_coco_panchromatic/test'
 
 # img_format = {'jpg', 'png', 'jpeg'}
 # paths = list()
